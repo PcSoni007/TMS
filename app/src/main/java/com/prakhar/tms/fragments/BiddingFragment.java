@@ -1,5 +1,6 @@
 package com.prakhar.tms.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,8 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,8 +50,10 @@ public class BiddingFragment extends Fragment implements BidVehicleAdapter.OnIte
     RecyclerView recyclerView;
     BidVehicleAdapter adapter;
     DatabaseReference myRef;
+    StorageReference storageReference;
     List<BiddingVehicle> list;
     private View view;
+    List<StorageReference> storageReferencesList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +61,8 @@ public class BiddingFragment extends Fragment implements BidVehicleAdapter.OnIte
         super.onCreate(savedInstanceState);
         list = new ArrayList<BiddingVehicle>();
         myRef = FirebaseDatabase.getInstance().getReference().child("bid_vehicle_details");
-
+        storageReference = FirebaseStorage.getInstance().getReference().child("images/bid_vehicle_images");
+        Log.e("BiddingImg", storageReference.getName().toString());
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -75,31 +81,51 @@ public class BiddingFragment extends Fragment implements BidVehicleAdapter.OnIte
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bidding, container, false);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        storageReference = FirebaseStorage.getInstance().getReference().child("images/bid_vehicle_image");
+        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                BiddingVehicle bid = snapshot.getValue(BiddingVehicle.class);
-                if (bid != null) {
-                    Log.e("BidVehicleList", snapshot.getValue().toString());
-                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                        // TODO: handle the post
-                        list.add(postSnapshot.getValue(BiddingVehicle.class));
-                        Log.e("BidVehicleList", postSnapshot.getValue().toString());
-                        Log.e("BidVehicleList", postSnapshot.getValue(BiddingVehicle.class).getBiddingDes().toString());
+            public void onSuccess(ListResult listResult) {
+                listResult.getItems().get(0).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.e("ImageUri", uri.toString());
+
                     }
-//                    Log.e("BidVehicleList", bid.getBiddingDes().toString());
-                    adapter = new BidVehicleAdapter(getContext(), list, BiddingFragment.this);
-                    recyclerView.setAdapter(adapter);
-
-                }
-                else {
-                    Log.e("BidVehicleList", "Data not availble");
-                }
+                });
+                storageReferencesList = listResult.getItems();
             }
-
+        }).addOnCompleteListener(new OnCompleteListener<ListResult>() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("BidVehicleList", "You are not permitted to access this data");
+            public void onComplete(@NonNull Task<ListResult> task) {
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        BiddingVehicle bid = snapshot.getValue(BiddingVehicle.class);
+                        if (bid != null) {
+                            Log.e("BidVehicleList", snapshot.getValue().toString());
+                            for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                                // TODO: handle the post
+                                list.add(postSnapshot.getValue(BiddingVehicle.class));
+                                Log.e("BidVehicleList", postSnapshot.getValue().toString());
+//                        Log.e("BidVehicleList", postSnapshot.getValue(BiddingVehicle.class).getBiddingDes().toString());
+
+
+                            }
+//                    Log.e("BidVehicleList", bid.getBiddingDes().toString());
+                            adapter = new BidVehicleAdapter(getContext(), list, BiddingFragment.this, storageReferencesList);
+                            recyclerView.setAdapter(adapter);
+
+                        }
+                        else {
+                            Log.e("BidVehicleList", "Data not availble");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("BidVehicleList", "You are not permitted to access this data");
+                    }
+                });
             }
         });
 

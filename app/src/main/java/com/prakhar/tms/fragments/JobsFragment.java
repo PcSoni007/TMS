@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -42,7 +43,7 @@ public class JobsFragment extends Fragment implements JobsAdapter.OnItemClickLis
 
 
     TextView JobTitle;
-    TextView JobTitle;
+    TextView JobDate;
     TextView JobPay;
     TextView JobSource;
     TextView JobDestination;
@@ -71,6 +72,7 @@ public class JobsFragment extends Fragment implements JobsAdapter.OnItemClickLis
         view = inflater.inflate(R.layout.fragment_jobs, container, false);
 
         JobTitle = view.findViewById(R.id.itemTitle);
+        JobDate = view.findViewById(R.id.itemJobDate);
         JobPay = view.findViewById(R.id.itemJpay);
         JobSource = view.findViewById(R.id.itemSource);
         JobDestination = view.findViewById(R.id.itemDestination);
@@ -113,11 +115,9 @@ public class JobsFragment extends Fragment implements JobsAdapter.OnItemClickLis
     }
     private void initComponent() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getContext(), 3), true));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getContext(), 3), true));
         recyclerView.setHasFixedSize(true);
-
-
     }
 
 

@@ -1,5 +1,6 @@
 package com.prakhar.tms.fragments;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,8 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
@@ -60,7 +64,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class VehiclesFragment extends Fragment implements AdapterView.OnItemSelectedListener   {
 
-    private static final int MAX_STEP = 4;
+    private static final int MAX_STEP = 3;
     private int current_step = 0;
     private ProgressBar progressBar;
     private TextView status;
@@ -116,6 +120,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private FirebaseAuth mAuth;
+    String str_progress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -134,6 +139,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_vehicle, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         init();
         initComponent();
 
@@ -151,7 +157,12 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
-        UserId = mAuth.getCurrentUser().getUid();
+        if(mAuth.getCurrentUser() != null){
+            UserId = mAuth.getCurrentUser().getUid();
+        }
+        else{
+            showCustomDialog();
+        }
 
         Vname = view.findViewById(R.id.vName);
         Vno = view.findViewById(R.id.vNo);
@@ -211,8 +222,8 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
         ((LinearLayout) view.findViewById(R.id.lyt_back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CurrentView(current_step);
                 backStep(current_step);
+                CurrentView(current_step);
 
             }
         });
@@ -220,15 +231,14 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
         ((LinearLayout) view.findViewById(R.id.lyt_next)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextStep(current_step);
                 CurrentView(current_step);
-                if(checkInput(current_step)){
-                    nextStep(current_step);
-                }
+
             }
         });
 
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
     }
 
@@ -239,7 +249,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
             ViewAnimation.fadeOutIn(status);
         }
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
         progressBar.setProgress(current_step);
     }
@@ -251,7 +261,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
             ViewAnimation.fadeOutIn(status);
         }
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
         progressBar.setProgress(current_step);
     }
@@ -274,27 +284,6 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
         if (c_step == 0){
 
 
-            Vname.setVisibility(View.GONE);
-            Vmodel.setVisibility(View.GONE);
-            Vno.setVisibility(View.GONE);
-
-            Vtype.setVisibility(View.GONE);
-            Vtire.setVisibility(View.GONE);
-            Vload.setVisibility(View.GONE);
-            Average.setVisibility(View.GONE);
-            Vavail.setVisibility(View.GONE);
-
-            Vowner.setVisibility(View.GONE);
-            Vloc.setVisibility(View.GONE);
-            Vcontact.setVisibility(View.GONE);
-
-            ImagePicker.setVisibility(View.GONE);
-
-
-        }
-
-        else if (c_step == 1){
-
             Vname.setVisibility(View.VISIBLE);
             Vmodel.setVisibility(View.VISIBLE);
             Vno.setVisibility(View.VISIBLE);
@@ -311,9 +300,13 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
 
             ImagePicker.setVisibility(View.GONE);
 
+            imageView1.setVisibility(View.GONE);
+            UploadDetails.setVisibility(View.GONE);
+
+
         }
 
-        else if (c_step == 2){
+        else if (c_step == 1){
 
             Vname.setVisibility(View.GONE);
             Vmodel.setVisibility(View.GONE);
@@ -331,10 +324,12 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
 
             ImagePicker.setVisibility(View.GONE);
 
+            imageView1.setVisibility(View.GONE);
+            UploadDetails.setVisibility(View.GONE);
 
         }
 
-        else if (c_step == 3){
+        else if (c_step == 2){
 
             Vname.setVisibility(View.GONE);
             Vmodel.setVisibility(View.GONE);
@@ -352,10 +347,13 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
 
             ImagePicker.setVisibility(View.GONE);
 
+            imageView1.setVisibility(View.GONE);
+            UploadDetails.setVisibility(View.GONE);
 
 
         }
-        else if( c_step == 4){
+
+        else if (c_step == 3){
 
             Vname.setVisibility(View.GONE);
             Vmodel.setVisibility(View.GONE);
@@ -373,7 +371,10 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
 
             ImagePicker.setVisibility(View.VISIBLE);
 
+
+
         }
+
 
 
     }
@@ -456,7 +457,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
 
 //        VehicleDetails mVehicle = new VehicleDetails(UserId, VehicleName, VehicleNo, VehicleType, VehicleAvg, "Available", VehicleTire, VehicleAvail, VehicleLoad, VehicleOwner, "Temporary Name" );
         VehicleDetails mVehicle = new VehicleDetails(VehicleName, VehicleModel, VehicleNo, VehicleType, VehicleTire, VehicleAvg, VehicleAvail, VehicleLoad,  VehicleOwner, OwnerCont, OwnerLoc, UserId);
-        myRef.child("bid_vehicle_details").child(VehicleNo).setValue(mVehicle);
+        myRef.child("vehicle_details").child(VehicleNo).setValue(mVehicle);
 
         if(filePath != null)
         {
@@ -464,13 +465,18 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child("images/bid_vehicle_image/"+VehicleNo);
+            StorageReference ref = storageReference.child("images/vehicle_image/"+VehicleNo);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Vehicle Added", Toast.LENGTH_SHORT).show();
+                            ProfileFragment profileFragment = new ProfileFragment();
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.cont,profileFragment,null);
+                            fragmentTransaction.commit();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -490,6 +496,35 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
                     });
         }
 
+    }
+
+    private void showCustomDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_warning);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                ProfileFragment profileFragment = new ProfileFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.cont,profileFragment,null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
 /*    private static final int MAX_STEP = 3;

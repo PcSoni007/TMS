@@ -22,7 +22,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/itemTitle"
                 android:layout_margin="2dp"
-                android:theme="@style/TextAppearance.AppCompat.Title"
                 android:text="Job Title"
                 />
             <TextView
@@ -30,7 +29,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/itemJobDate"
                 android:layout_margin="2dp"
-                android:theme="@style/TextAppearance.AppCompat.Subhead"
                 android:text="Job Date"
                 />
             <TextView
@@ -38,7 +36,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/itemJpay"
                 android:layout_margin="2dp"
-                android:theme="@style/TextAppearance.AppCompat.Subhead"
                 android:text="Job Payment : "
                 />
             <LinearLayout
@@ -50,7 +47,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/itemSource"
                     android:layout_margin="2dp"
-                    android:theme="@style/TextAppearance.AppCompat.Subhead"
                     android:text="Job Source"
                     />
 
@@ -64,7 +60,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/itemDestination"
                     android:layout_margin="2dp"
-                    android:theme="@style/TextAppearance.AppCompat.Subhead"
                     android:text="Destination"
                     />
 

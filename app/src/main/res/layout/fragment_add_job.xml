@@ -22,285 +22,293 @@
             android:max="100"
             android:progress="40" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:scrollbars="vertical"
             >
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Jobs"
-                android:layout_margin="20dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/grey_60"
-                android:textStyle="bold" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/jobTitle"
-                android:inputType="text"
-                android:visibility="gone"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:hint="Job Title"
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/jobDes"
-                android:inputType="textPersonName"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:visibility="gone"
-                android:hint="Job Description"
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/jobPay"
-                android:visibility="gone"
-                android:inputType="text"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:hint="Job Payment"
-                />
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/jobType"
-                android:visibility="gone"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                />
-
-
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/goodsName"
-                android:inputType="textPersonName"
-                android:visibility="gone"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:hint="Goods Name"
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/goodsQuant"
-                android:inputType="number"
-                android:visibility="gone"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:hint="Goods Quantity"
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/goodsDes"
-                android:inputType="text"
-                android:visibility="gone"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:hint="Goods Description"
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/jobSource"
-                android:inputType="text"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:visibility="gone"
-                android:hint="Job Source"
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/jobDestination"
-                android:visibility="gone"
-                android:hint="Job Destination"
-                android:inputType="text"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                />
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:text="01 Jan 2000"
-                android:visibility="gone"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/grey_60" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/jobStatus"
-                android:visibility="gone"
-                android:hint="Job Status"
-                android:inputType="text"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:id="@+id/jobId"
-                android:visibility="gone"
-                android:inputType="phone"
-                android:hint="Job Id"
-                />
-
-
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/vImages"
-                android:orientation="horizontal"
-                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 >
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jobs"
+                    android:layout_margin="20dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/grey_60"
+                    android:textStyle="bold" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="105dp"
-                    android:layout_height="105dp"
-                    android:id="@+id/imagePicker"
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jobTitle"
+                    android:inputType="text"
                     android:visibility="gone"
-                    android:backgroundTint="@color/black"
-                    app:cardCornerRadius="5dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="Job Title"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jobDes"
+                    android:inputType="textPersonName"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:visibility="gone"
+                    android:hint="Job Description"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jobPay"
+                    android:visibility="gone"
+                    android:inputType="text"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="Job Payment"
+                    />
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jobType"
+                    android:visibility="gone"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    />
+
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/goodsName"
+                    android:inputType="textPersonName"
+                    android:visibility="gone"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="Goods Name"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/goodsQuant"
+                    android:inputType="number"
+                    android:visibility="gone"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="Goods Quantity"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/goodsDes"
+                    android:inputType="text"
+                    android:visibility="gone"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="Goods Description"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jobSource"
+                    android:inputType="text"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:visibility="gone"
+                    android:hint="Job Source"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jobDestination"
+                    android:visibility="gone"
+                    android:hint="Job Destination"
+                    android:inputType="text"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:text="01 Jan 2000"
+                    android:visibility="gone"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/grey_60" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jobStatus"
+                    android:visibility="gone"
+                    android:hint="Job Status"
+                    android:inputType="text"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:id="@+id/jobId"
+                    android:visibility="gone"
+                    android:inputType="phone"
+                    android:hint="Job Id"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/vImages"
+                    android:orientation="horizontal"
+                    android:layout_margin="30dp"
                     >
-                    <LinearLayout
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="105dp"
+                        android:layout_height="105dp"
+                        android:id="@+id/imagePicker"
+                        android:visibility="gone"
+                        android:backgroundTint="@color/black"
+                        app:cardCornerRadius="5dp"
+                        >
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:background="@color/blue_200"
+                            android:orientation="vertical"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="25dp"
+                                android:src="@drawable/ic_cam"
+                                android:layout_gravity="center_horizontal"
+                                android:tag="Select Image From Files"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="2dp"
+                                android:textColor="@color/white"
+                                android:text="Select Image From Files"
+
+                                />
+                        </LinearLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:background="@color/blue_200"
-                        android:orientation="vertical"
-                        >
+                        android:src="@drawable/ic_cam"
+                        android:visibility="gone"
+                        android:layout_marginLeft="20dp"
+                        android:id="@+id/imageView1"
+                        />
+
+                </LinearLayout>
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/upload"
+                    android:visibility="gone"
+                    android:layout_margin="30dp"
+                    android:text="Submit Details"
+                    />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:fitsSystemWindows="true"
+                    android:windowSoftInputMode="stateVisible|adjustResize"
+
+                    >
+                    <LinearLayout
+                        android:id="@+id/lyt_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:orientation="horizontal"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="30dp"
+                        android:focusable="true">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="25dp"
-                            android:src="@drawable/ic_cam"
-                            android:layout_gravity="center_horizontal"
-                            android:tag="Select Image From Files"
-                            />
+                            android:src="@drawable/ic_chevron_left"
+                            app:tint="@color/grey_60" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="2dp"
-                            android:textColor="@color/white"
-                            android:text="Select Image From Files"
+                            android:text="@string/BACK"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_60"
+                            android:textStyle="bold" />
 
-                            />
                     </LinearLayout>
 
+                    <LinearLayout
 
-                </androidx.cardview.widget.CardView>
+                        android:id="@+id/lyt_next"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="30dp"
+                        android:orientation="horizontal"
+                        android:focusable="true"
+                        >
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ic_cam"
-                    android:visibility="gone"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/imageView1"
-                    />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/NEXT"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_60"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/grey_60" />
+
+                    </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
 
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/upload"
-                android:visibility="gone"
-                android:layout_margin="30dp"
-                android:text="Submit Details"
-                />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lyt_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:layout_marginBottom="40dp"
-            android:layout_marginStart="30dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:padding="@dimen/spacing_middle"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_chevron_left"
-                app:tint="@color/grey_60" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/BACK"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/grey_60"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-
-            android:id="@+id/lyt_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="40dp"
-            android:orientation="horizontal"
-            android:padding="@dimen/spacing_middle"
-            android:focusable="true"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/NEXT"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/grey_60"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_chevron_right"
-                app:tint="@color/grey_60" />
-
-        </LinearLayout>
+        </ScrollView>
 
 
     </RelativeLayout>

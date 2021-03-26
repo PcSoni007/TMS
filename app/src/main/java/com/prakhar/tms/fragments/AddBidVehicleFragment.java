@@ -1,5 +1,6 @@
 package com.prakhar.tms.fragments;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,8 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,10 +24,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -109,6 +115,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private FirebaseAuth mAuth;
+    String str_progress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,7 +152,12 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
-        UserId = mAuth.getCurrentUser().getUid();
+        if(mAuth.getCurrentUser() != null){
+            UserId = mAuth.getCurrentUser().getUid();
+        }
+        else{
+            showCustomDialog();
+        }
 
         BidTitle = view.findViewById(R.id.bidTitle);
         BidPrice = view.findViewById(R.id.bidPrice);
@@ -209,8 +221,8 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
         ((LinearLayout) view.findViewById(R.id.lyt_back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CurrentView(current_step);
                 backStep(current_step);
+                CurrentView(current_step);
 
             }
         });
@@ -218,15 +230,14 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
         ((LinearLayout) view.findViewById(R.id.lyt_next)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CurrentView(current_step);
                 nextStep(current_step);
-                if(checkInput(current_step)){
-                }
+                CurrentView(current_step);
+
             }
         });
 
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
     }
 
@@ -237,7 +248,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
             ViewAnimation.fadeOutIn(status);
         }
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
         progressBar.setProgress(current_step);
     }
@@ -249,7 +260,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
             ViewAnimation.fadeOutIn(status);
         }
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
         progressBar.setProgress(current_step);
     }
@@ -499,7 +510,12 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Vehicle Added For Bidding", Toast.LENGTH_SHORT).show();
+                            BiddingFragment biddingFragment = new BiddingFragment();
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.cont,biddingFragment,null);
+                            fragmentTransaction.commit();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -515,10 +531,39 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
                             double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
                                     .getTotalByteCount());
                             progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                            Toast.makeText(getActivity(), "Vehicle Added for Bidding", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), "Vehicle Added for Bidding", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
 
+    }
+
+    private void showCustomDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_warning);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                ProfileFragment profileFragment = new ProfileFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.cont,profileFragment,null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 }

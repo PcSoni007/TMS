@@ -95,7 +95,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 if (view.getId() == R.id.logout) {
                     AuthUI.getInstance()
-                            .signOut(Objects.requireNonNull(getContext()))
+                            .signOut(requireContext())
                             .addOnCompleteListener((OnCompleteListener<Void>) task -> {
                                 // user is now signed out
                                 Toast.makeText(getContext(), "Logged out Successfully", Toast.LENGTH_SHORT).show();
@@ -165,11 +165,13 @@ public class ProfileFragment extends Fragment {
                 // Sign in failed
                 if (response == null) {
                     // User pressed back button
+                    Log.e("Login", "Sign in Failed");
 //                    showSnackbar(R.string.sign_in_cancelled);
 //                    return;
                 }
 
                 if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                    Log.e("Login", "No Internet Connection");
 //                    showSnackbar(R.string.no_internet_connection);
 //                    return;
                 }

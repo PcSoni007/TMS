@@ -1,5 +1,6 @@
 package com.prakhar.tms.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -9,22 +10,32 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -43,6 +54,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class AddJobFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -92,7 +104,7 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
 
     String UserId;
 
-
+    String str_progress;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
@@ -124,7 +136,12 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
         firebaseDatabase = FirebaseDatabase.getInstance();
         myRef = firebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
-        UserId = mAuth.getCurrentUser().getUid();
+         if(mAuth.getCurrentUser() != null){
+             UserId = mAuth.getCurrentUser().getUid();
+         }
+         else{
+             showCustomDialog();
+         }
 
         Jobtitle = view.findViewById(R.id.jobTitle);
         Jobdes = view.findViewById(R.id.jobDes);
@@ -185,8 +202,8 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
         ((LinearLayout) view.findViewById(R.id.lyt_back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CurrentView(current_step);
                 backStep(current_step);
+                CurrentView(current_step);
 
             }
         });
@@ -194,13 +211,13 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
         ((LinearLayout) view.findViewById(R.id.lyt_next)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CurrentView(current_step);
                 nextStep(current_step);
+                CurrentView(current_step);
             }
         });
 
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
     }
 
@@ -211,7 +228,7 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
             ViewAnimation.fadeOutIn(status);
         }
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
         progressBar.setProgress(current_step);
     }
@@ -223,7 +240,7 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
             ViewAnimation.fadeOutIn(status);
         }
 //        String str_progress = String.format(getString(R.string.step_of), current_step, MAX_STEP);
-        String str_progress = tabs.get(current_step);
+        str_progress = tabs.get(current_step);
         status.setText(str_progress);
         progressBar.setProgress(current_step);
     }
@@ -328,7 +345,17 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
 
 //        VehicleDetails mVehicle = new VehicleDetails(UserId, VehicleName, VehicleNo, VehicleType, VehicleAvg, "Available", VehicleTire, VehicleAvail, VehicleLoad, VehicleOwner, "Temporary Name" );
         Jobs jobs = new Jobs(UserId, JobTitle, JobDes, GoodsName, GoodsQuantity, GoodsDescription, JobSource, JobDestination, JobStatus, JobId, JobDate, JobPay, JobType   );
-        myRef.child("job_details").child(UserId+date+JobId).setValue(jobs);
+        myRef.child("job_details").child(UserId+date+JobId).setValue(jobs).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getContext(), "Job Added Successfully", Toast.LENGTH_SHORT).show();
+                JobsFragment jobsFragment = new JobsFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.cont,jobsFragment,null);
+                fragmentTransaction.commit();
+            }
+        });
 
 
 
@@ -358,5 +385,34 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
         datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
         datePicker.setMinDate(cur_calender);
         datePicker.show(getActivity().getFragmentManager(), "Datepickerdialog");
+    }
+
+    private void showCustomDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_warning);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                ProfileFragment profileFragment = new ProfileFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.cont,profileFragment,null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 }

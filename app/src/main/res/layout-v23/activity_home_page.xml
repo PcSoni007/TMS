@@ -59,8 +59,7 @@
         <FrameLayout
             android:id="@+id/cont"
             android:layout_width="match_parent"
-            android:layout_height="599dp"
-
+            android:layout_height="match_parent"
             />
 
     </LinearLayout>
@@ -71,8 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:fabAlignmentMode="center"
-        android:windowSoftInputMode="adjustPan|adjustResize"
         app:hideOnScroll="true"
+
         app:backgroundTint="@color/white"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:theme="@style/Theme.MaterialComponents.DayNight"

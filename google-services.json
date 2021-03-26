@@ -8,12 +8,49 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1032133391556:android:1336aa7ddec03ee2fd4591",
+        "android_client_info": {
+          "package_name": "com.prakhar.firebasedemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032133391556-a9cgjcurtkc3rer133hgotnjmqq655h2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB2P43F_4vC8NWw__e--2y8fjh3smXMC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032133391556-a9cgjcurtkc3rer133hgotnjmqq655h2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1032133391556:android:5a524e878da04263fd4591",
         "android_client_info": {
           "package_name": "com.prakhar.tms"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1032133391556-8rg76teab74egn2tls4itsrp2u4nn31b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prakhar.tms",
+            "certificate_hash": "b761521bc2c5778047ca7f063f318dfc89f9d7d0"
+          }
+        },
         {
           "client_id": "1032133391556-a9cgjcurtkc3rer133hgotnjmqq655h2.apps.googleusercontent.com",
           "client_type": 3

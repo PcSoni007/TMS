@@ -33,14 +33,14 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.UsersViewHolde
         this.mc = mc;
         this.JobList = userlists;
         this.onItemClickListner=onItemClickListner;
-        Log.e("UserAdapter", userlists.get(0).getJobTitle()+"");
+        Log.e("JobsAdapter", userlists.get(0).getJobTitle()+"");
 //        Log.e("UserAdapter", userlists.get(1).getOwnerloc().toString());
     }
 
     @NonNull
     @Override
     public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_demo,parent,false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.job_item,parent,false);
 //        UserAdapter.UsersViewHolder V = new UserAdapter.UsersViewHolder(view);
         /*view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.UsersViewHolde
             txt2= (TextView) itemView.findViewById(R.id.itemJobDate);
             txt3= (TextView) itemView.findViewById(R.id.itemJpay);
             txt4= (TextView) itemView.findViewById(R.id.itemSource);
-            txt4= (TextView) itemView.findViewById(R.id.itemDestination);
+            txt5= (TextView) itemView.findViewById(R.id.itemDestination);
 
 //            img = (ImageView) itemView.findViewById(R.id.img);
             this.onItemClickListner= onItemClickListner;
