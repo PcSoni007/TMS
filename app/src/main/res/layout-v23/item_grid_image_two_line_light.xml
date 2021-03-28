@@ -5,7 +5,8 @@
     android:id="@+id/lyt_parent"
     style="@style/RippleStyleBlack"
     android:layout_width="match_parent"
-    android:layout_height="240dp">
+    android:background="@drawable/shadow"
+    android:layout_height="280dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,14 +37,36 @@
             android:padding="@dimen/spacing_large">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/rupee"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Price"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:id="@+id/price"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textStyle="bold"
+                        />
+
+                </LinearLayout>
                 <TextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
+                    android:id="@+id/brief"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -53,28 +76,49 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/brief"
+                    android:id="@+id/model"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="Support Text"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/grey_40" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/grey_1000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_baseline_location_on_24"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location"
+                        android:id="@+id/location"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <View
+            <!--<View
                 android:layout_width="@dimen/spacing_large"
                 android:layout_height="0dp" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+-->
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@android:color/transparent"
-                android:tint="@color/grey_40"
-                android:src="@drawable/ic_car" />
+                android:src="@drawable/auction" />
 
         </LinearLayout>
 

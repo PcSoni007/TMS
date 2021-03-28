@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -71,12 +72,12 @@ public class JobsFragment extends Fragment implements JobsAdapter.OnItemClickLis
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_jobs, container, false);
 
-        JobTitle = view.findViewById(R.id.itemTitle);
-        JobDate = view.findViewById(R.id.itemJobDate);
-        JobPay = view.findViewById(R.id.itemJpay);
-        JobSource = view.findViewById(R.id.itemSource);
-        JobDestination = view.findViewById(R.id.itemDestination);
+        LinearLayout lyt_progress = (LinearLayout) view.findViewById(R.id.lyt_progress);
+        lyt_progress.setVisibility(View.VISIBLE);
+        lyt_progress.setAlpha(1.0f);
         initComponent();
+        recyclerView.setVisibility(View.GONE);
+
 
 //        Log.e(TAG, list.get(0).getJobTitle()+"");
 //        Log.e(TAG, list.get(2).getJobTitle().toString());
@@ -94,6 +95,8 @@ public class JobsFragment extends Fragment implements JobsAdapter.OnItemClickLis
                     }
 //                    Log.e("BidVehicleList", bid.getBiddingDes().toString());
                     adapter = new JobsAdapter(getContext(), list, JobsFragment.this);
+                    lyt_progress.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setAdapter(adapter);
 
                 }
@@ -114,6 +117,13 @@ public class JobsFragment extends Fragment implements JobsAdapter.OnItemClickLis
         return view;
     }
     private void initComponent() {
+
+        JobTitle = view.findViewById(R.id.itemTitle);
+        JobDate = view.findViewById(R.id.itemJobDate);
+        JobPay = view.findViewById(R.id.itemJpay);
+        JobSource = view.findViewById(R.id.itemSource);
+        JobDestination = view.findViewById(R.id.itemDestination);
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getContext(), 3), true));

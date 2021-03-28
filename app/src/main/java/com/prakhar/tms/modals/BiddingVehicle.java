@@ -1,10 +1,5 @@
 package com.prakhar.tms.modals;
 
-import android.media.Image;
-
-import java.security.PrivateKey;
-import java.util.ArrayList;
-
 public class BiddingVehicle {
 
 
@@ -19,7 +14,7 @@ public class BiddingVehicle {
     private String VehicleType;
     private String NoOfTires;
     private String LoadingCap;
-    private String Availability;
+    private String KmDriven;
     private String Average;
 
     private String VehicleOwner;
@@ -32,7 +27,7 @@ public class BiddingVehicle {
 
     }
 
-    public BiddingVehicle(String biddingTitle, String biddingDes, String biddingPrice, String vehicleName, String vehicleModel, String vehicleNo, String vehicleType, String noOfTires, String loadingCap, String availability, String average, String vehicleOwner, String ownerCont, String ownerloc, String userId) {
+    public BiddingVehicle(String biddingTitle, String biddingDes, String biddingPrice, String vehicleName, String vehicleModel, String vehicleNo, String vehicleType, String noOfTires, String loadingCap, String kmDriven, String average, String vehicleOwner, String ownerCont, String ownerloc, String userId) {
         BiddingTitle = biddingTitle;
         BiddingDes = biddingDes;
         BiddingPrice = biddingPrice;
@@ -42,7 +37,7 @@ public class BiddingVehicle {
         VehicleType = vehicleType;
         NoOfTires = noOfTires;
         LoadingCap = loadingCap;
-        Availability = availability;
+        KmDriven = kmDriven;
         Average = average;
         VehicleOwner = vehicleOwner;
         OwnerCont = ownerCont;
@@ -122,12 +117,12 @@ public class BiddingVehicle {
         LoadingCap = loadingCap;
     }
 
-    public String getAvailability() {
-        return Availability;
+    public String getKmDriven() {
+        return KmDriven;
     }
 
-    public void setAvailability(String availability) {
-        Availability = availability;
+    public void setKmDriven(String kmDriven) {
+        KmDriven = kmDriven;
     }
 
     public String getAverage() {

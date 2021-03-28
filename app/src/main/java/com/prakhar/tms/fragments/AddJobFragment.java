@@ -136,12 +136,8 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
         firebaseDatabase = FirebaseDatabase.getInstance();
         myRef = firebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
-         if(mAuth.getCurrentUser() != null){
-             UserId = mAuth.getCurrentUser().getUid();
-         }
-         else{
-             showCustomDialog();
-         }
+
+        UserId = mAuth.getCurrentUser().getUid();
 
         Jobtitle = view.findViewById(R.id.jobTitle);
         Jobdes = view.findViewById(R.id.jobDes);
@@ -387,32 +383,5 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
         datePicker.show(getActivity().getFragmentManager(), "Datepickerdialog");
     }
 
-    private void showCustomDialog() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_warning);
-        dialog.setCancelable(true);
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                ProfileFragment profileFragment = new ProfileFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.cont,profileFragment,null);
-                fragmentTransaction.commit();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
 }

@@ -23,7 +23,10 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.prakhar.tms.R;
 import com.prakhar.tms.ui.HomePage;
@@ -32,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
@@ -127,6 +131,7 @@ public class ProfileFragment extends Fragment {
                         new AuthUI.IdpConfig.PhoneBuilder().build(),
                         new AuthUI.IdpConfig.GoogleBuilder().build());
 
+
                 /*AuthMethodPickerLayout customLayout = new AuthMethodPickerLayout
                         .Builder(R.layout.activity_login)
                         .setGoogleButtonId(R.id.loginGoogle)
@@ -134,14 +139,18 @@ public class ProfileFragment extends Fragment {
                         .setPhoneButtonId(R.id.loginPhone)
                         .build();*/
 
-                // Create and launch sign-in intent
+
                 startActivityForResult(
                         AuthUI.getInstance(FirebaseApp.initializeApp(getContext()))
                                 .createSignInIntentBuilder()
                                 .setAvailableProviders(providers)
+                                .setTosAndPrivacyPolicyUrls("https://superapp.example.com/terms-of-service.html",
+                                "https://superapp.example.com/privacy-policy.html")
+                                .setLogo(R.drawable.t_logo)
                                 .setTheme(R.style.signup)
                                 .build(), 123
                 );
+
             }
         });
 
@@ -170,14 +179,14 @@ public class ProfileFragment extends Fragment {
 //                    return;
                 }
 
-                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                /*if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     Log.e("Login", "No Internet Connection");
 //                    showSnackbar(R.string.no_internet_connection);
 //                    return;
-                }
+                }*/
 
 //                showSnackbar(R.string.unknown_error);
-                Log.e(TAG, "Sign-in error: ", response.getError());
+//                Log.e(TAG, "Sign-in error: ", response.getError());
             }
         }
     }

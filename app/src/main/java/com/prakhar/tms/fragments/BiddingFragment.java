@@ -1,12 +1,19 @@
 package com.prakhar.tms.fragments;
 
+import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +46,7 @@ import com.prakhar.tms.adapters.BidVehicleAdapter;
 import com.prakhar.tms.modals.BiddingVehicle;
 import com.prakhar.tms.modals.Jobs;
 import com.prakhar.tms.utils.Tools;
+import com.prakhar.tms.utils.ViewAnimation;
 import com.prakhar.tms.widgets.SpacingItemDecoration;
 
 import java.util.ArrayList;
@@ -54,6 +63,7 @@ public class BiddingFragment extends Fragment implements BidVehicleAdapter.OnIte
     List<BiddingVehicle> list;
     private View view;
     List<StorageReference> storageReferencesList;
+    CircularProgressIndicator progressIndicator;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +90,12 @@ public class BiddingFragment extends Fragment implements BidVehicleAdapter.OnIte
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bidding, container, false);
+
+        LinearLayout lyt_progress = (LinearLayout) view.findViewById(R.id.lyt_progress);
+        lyt_progress.setVisibility(View.VISIBLE);
+        lyt_progress.setAlpha(1.0f);
+        initComponent();
+        recyclerView.setVisibility(View.GONE);
 
         storageReference = FirebaseStorage.getInstance().getReference().child("images/bid_vehicle_image");
         storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
@@ -113,6 +129,8 @@ public class BiddingFragment extends Fragment implements BidVehicleAdapter.OnIte
                             }
 //                    Log.e("BidVehicleList", bid.getBiddingDes().toString());
                             adapter = new BidVehicleAdapter(getContext(), list, BiddingFragment.this, storageReferencesList);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            lyt_progress.setVisibility(View.GONE);
                             recyclerView.setAdapter(adapter);
 
                         }
@@ -130,7 +148,6 @@ public class BiddingFragment extends Fragment implements BidVehicleAdapter.OnIte
         });
 
 
-        initComponent();
 
 
         return view;
@@ -150,6 +167,8 @@ public class BiddingFragment extends Fragment implements BidVehicleAdapter.OnIte
     public void onItemClick(int id) {
 
     }
+
+
 }
 /*
         set data and list adapter

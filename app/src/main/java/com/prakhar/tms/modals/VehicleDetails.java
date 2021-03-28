@@ -22,6 +22,9 @@ public class VehicleDetails {
 
     private String UserId;
 
+    public VehicleDetails() {
+    }
+
     public VehicleDetails(String vehicleName, String vehicleModel, String vehicleNo, String vehicleType, String noOfTires, String average, String availability, String loadingCap, String vehicleOwner, String ownerCont, String ownerLoc, String userId) {
         VehicleName = vehicleName;
         VehicleModel = vehicleModel;

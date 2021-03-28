@@ -29,7 +29,17 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/appBar"
+                    android:text="TMS"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/mdtp_white"
+                    android:layout_marginStart="20dp"
+                    />
+
+     <!--           <ImageButton
                     android:id="@+id/bt_menu"
                     android:layout_width="?attr/actionBarSize"
                     android:layout_height="?attr/actionBarSize"
@@ -51,7 +61,7 @@
                     android:focusableInTouchMode="true"
                     android:src="@drawable/ic_baseline_search_24"
                     android:tint="@android:color/primary_text_light" />
-
+-->
             </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -95,8 +105,6 @@
                     android:clickable="true"
                     android:layout_gravity="center_horizontal"
                     android:padding="@dimen/spacing_large"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:src="@drawable/ic_home"
                     app:tint="@color/blue_300" />
                 <TextView
@@ -125,11 +133,11 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
-                    android:focusable="true"
                     android:layout_gravity="center_horizontal"
                     android:padding="@dimen/spacing_large"
-                    android:src="@drawable/badge_goal"
-                    app:tint="@color/blue_300" />
+                    android:src="@drawable/portfolio"
+                    app:tint="@color/blue_300"
+                    android:focusable="true" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -161,11 +169,11 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
-                    android:focusable="true"
                     android:layout_gravity="center_horizontal"
                     android:padding="@dimen/spacing_large"
                     android:src="@drawable/ic_car"
-                    app:tint="@color/blue_300" />
+                    app:tint="@color/blue_300"
+                    android:focusable="true" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -193,7 +201,6 @@
                     android:clickable="true"
                     android:layout_gravity="center_horizontal"
                     android:padding="@dimen/spacing_large"
-                    android:contextClickable="true"
                     android:src="@drawable/ic_person"
                     app:tint="@color/blue_300"
                     android:focusable="true" />

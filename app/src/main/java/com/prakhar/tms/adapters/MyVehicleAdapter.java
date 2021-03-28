@@ -25,19 +25,19 @@ import java.util.List;
 public class MyVehicleAdapter extends RecyclerView.Adapter<MyVehicleAdapter.UsersViewHolder>{
     private Context mc;
     private List<VehicleDetails> myVehicelList;
-    private BiddingVehicle vehicle;
     private View view;
     List<StorageReference> ImgList;
     private OnItemClickListner onItemClickListner;
+    private String CurrentUser;
 
 
-
-    public MyVehicleAdapter(Context mc, List<VehicleDetails> userlists, OnItemClickListner onItemClickListner, List<StorageReference> storageReferencesList) {
+    public MyVehicleAdapter(Context mc, List<VehicleDetails> userlists, OnItemClickListner onItemClickListner, List<StorageReference> storageReferencesList, String mUser) {
         this.mc = mc;
         this.myVehicelList = userlists;
         this.onItemClickListner=onItemClickListner;
         this.ImgList = storageReferencesList;
-        Log.e("UserAdapter", userlists.get(0).getVehicleName()+"");
+        this.CurrentUser = mUser;
+        Log.e("MyVehicleAdapter", userlists.get(0).getVehicleName()+"");
 //        Log.e("UserAdapter", userlists.get(1).getOwnerloc().toString());
     }
 
@@ -46,7 +46,7 @@ public class MyVehicleAdapter extends RecyclerView.Adapter<MyVehicleAdapter.User
     @NonNull
     @Override
     public MyVehicleAdapter.UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grid_image_two_line_light,parent,false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_vehicle_item,parent,false);
 //        UserAdapter.UsersViewHolder V = new UserAdapter.UsersViewHolder(view);
         /*view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,13 +61,20 @@ public class MyVehicleAdapter extends RecyclerView.Adapter<MyVehicleAdapter.User
     @Override
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
 //        holder.txt1.setText(userlist.getUserId());
-        String PId= String.valueOf(vehicle.getBiddingTitle());
-        String PName = String.valueOf(vehicle.getBiddingPrice());
-        String PPrice = String.valueOf(vehicle.getVehicleName());
-        String PQuant = String.valueOf(vehicle.getVehicleModel());
-        holder.txt1.setText(PId);
-        holder.txt2.setText(PName);
 
+
+        String Vname= String.valueOf(myVehicelList.get(position).getVehicleName());
+        String Vmodel = String.valueOf(myVehicelList.get(position).getVehicleModel());
+        String Vno = String.valueOf(myVehicelList.get(position).getVehicleNo());
+        String Vtype = String.valueOf(myVehicelList.get(position).getVehicleType());
+        String Vload = String.valueOf(myVehicelList.get(position).getLoadingCap());
+        holder.txt1.setText(Vname);
+        holder.txt2.setText(Vmodel);
+        holder.txt3.setText(Vno);
+        holder.txt4.setText(Vtype);
+        holder.txt5.setText(Vload);
+
+//        if (myVehicelList.get(position).getVehicleNo())
         ImgList.get(position).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -85,15 +92,16 @@ public class MyVehicleAdapter extends RecyclerView.Adapter<MyVehicleAdapter.User
     public class UsersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         OnItemClickListner onItemClickListner;
-        private TextView txt1,txt2,txt3,txt4;
+        private TextView txt1,txt2,txt3,txt4,txt5;
         ImageView img;
         public UsersViewHolder(@NonNull View itemView, OnItemClickListner onItemClickListner) {
             super(itemView);
-            txt1= (TextView) itemView.findViewById(R.id.name);
-            txt2= (TextView) itemView.findViewById(R.id.brief);
-//            txt3= (TextView) itemView.findViewById(R.id.itemSource);
-//            txt4= (TextView) itemView.findViewById(R.id.itemDestination);
-            img = (ImageView) itemView.findViewById(R.id.image);
+            txt1= (TextView) itemView.findViewById(R.id.itemTitle);
+            txt2= (TextView) itemView.findViewById(R.id.itemJobDate);
+            txt3= (TextView) itemView.findViewById(R.id.itemJpay);
+            txt4= (TextView) itemView.findViewById(R.id.itemSource);
+            txt5= (TextView) itemView.findViewById(R.id.itemDestination);
+            img = (ImageView) itemView.findViewById(R.id.cardImg);
             this.onItemClickListner= onItemClickListner;
             itemView.setOnClickListener(this);
         }

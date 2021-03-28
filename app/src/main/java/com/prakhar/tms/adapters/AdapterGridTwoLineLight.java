@@ -1,5 +1,6 @@
 package com.prakhar.tms.adapters;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +41,14 @@ public class AdapterGridTwoLineLight extends FirebaseRecyclerAdapter<BiddingVehi
         return new myViewholder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onBindViewHolder(@NonNull myViewholder holder, int position, @NonNull BiddingVehicle model) {
         holder.Title.setText(model.getBiddingTitle());
-        holder.Price.setText(model.getBiddingPrice());
+        holder.Price.setText(model.getBiddingPrice().toString());
 
         Log.e("BidData", model.getBiddingTitle());
-        Log.e("BidData", model.getBiddingPrice());
+        Log.e("BidData", model.getBiddingPrice().toString());
 
         Picasso.get().load(R.drawable.image_6).into(holder.vehicleImg);
     }

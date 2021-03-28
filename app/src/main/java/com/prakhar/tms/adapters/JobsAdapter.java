@@ -62,11 +62,11 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.UsersViewHolde
         String JPay = String.valueOf(job.getJobPay());
         String JSource = String.valueOf(job.getSource());
         String JDestination = String.valueOf(job.getDestination());
-        holder.txt1.setText(JTitle);
-        holder.txt2.setText(JDate);
-        holder.txt3.setText(JPay);
-        holder.txt4.setText(JSource);
-        holder.txt5.setText(JDestination);
+        holder.txt1.append(JTitle);
+        holder.txt2.append(JDate);
+        holder.txt3.append(JPay);
+        holder.txt4.append(JSource);
+        holder.txt5.append(JDestination);
 
 //        Picasso.with(mc).load(vehicle.getImg()).into(holder.img);
         /*holder.itemView.setOnClickListener(new View.OnClickListener() {

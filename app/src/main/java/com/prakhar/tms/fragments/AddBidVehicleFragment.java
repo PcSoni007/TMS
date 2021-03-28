@@ -43,12 +43,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.prakhar.tms.R;
 import com.prakhar.tms.modals.BiddingVehicle;
-import com.prakhar.tms.modals.VehicleDetails;
 import com.prakhar.tms.utils.ViewAnimation;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -74,7 +72,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
     EditText Vtire;
     EditText Average;
     EditText Vload;
-    EditText Vavail;
+    EditText Vdriven;
 
     EditText Vowner;
     EditText Vloc;
@@ -97,7 +95,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
     String BidddingDes;
 
     String VehicleType;
-    String VehicleAvail;
+    String VehicleDriven;
     String VehicleTire;
     String VehicleLoad;
     String VehicleAvg;
@@ -152,12 +150,8 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
-            UserId = mAuth.getCurrentUser().getUid();
-        }
-        else{
-            showCustomDialog();
-        }
+
+        UserId = mAuth.getCurrentUser().getUid();
 
         BidTitle = view.findViewById(R.id.bidTitle);
         BidPrice = view.findViewById(R.id.bidPrice);
@@ -167,7 +161,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
         Vno = view.findViewById(R.id.vNo);
         Vmodel = view.findViewById(R.id.vModel);
 
-        Vavail = view.findViewById(R.id.vAvail);
+        Vdriven = view.findViewById(R.id.vAvail);
         Vtire = view.findViewById(R.id.vNoTire);
         Vload = view.findViewById(R.id.vLoad);
         Average = view.findViewById(R.id.average);
@@ -230,7 +224,9 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
         ((LinearLayout) view.findViewById(R.id.lyt_next)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextStep(current_step);
+                if(checkInput(current_step)){
+                    nextStep(current_step);
+                }
                 CurrentView(current_step);
 
             }
@@ -242,6 +238,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
     }
 
     private void nextStep(int progress) {
+
         if (progress < MAX_STEP) {
             progress++;
             current_step = progress;
@@ -294,7 +291,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
             Vtire.setVisibility(View.GONE);
             Vload.setVisibility(View.GONE);
             Average.setVisibility(View.GONE);
-            Vavail.setVisibility(View.GONE);
+            Vdriven.setVisibility(View.GONE);
 
             Vowner.setVisibility(View.GONE);
             Vloc.setVisibility(View.GONE);
@@ -321,7 +318,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
             Vtire.setVisibility(View.GONE);
             Vload.setVisibility(View.GONE);
             Average.setVisibility(View.GONE);
-            Vavail.setVisibility(View.GONE);
+            Vdriven.setVisibility(View.GONE);
 
             Vowner.setVisibility(View.GONE);
             Vloc.setVisibility(View.GONE);
@@ -347,7 +344,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
             Vtire.setVisibility(View.VISIBLE);
             Vload.setVisibility(View.VISIBLE);
             Average.setVisibility(View.VISIBLE);
-            Vavail.setVisibility(View.VISIBLE);
+            Vdriven.setVisibility(View.VISIBLE);
 
             Vowner.setVisibility(View.GONE);
             Vloc.setVisibility(View.GONE);
@@ -374,7 +371,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
             Vtire.setVisibility(View.GONE);
             Vload.setVisibility(View.GONE);
             Average.setVisibility(View.GONE);
-            Vavail.setVisibility(View.GONE);
+            Vdriven.setVisibility(View.GONE);
 
             Vowner.setVisibility(View.VISIBLE);
             Vloc.setVisibility(View.VISIBLE);
@@ -401,7 +398,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
             Vtire.setVisibility(View.GONE);
             Vload.setVisibility(View.GONE);
             Average.setVisibility(View.GONE);
-            Vavail.setVisibility(View.GONE);
+            Vdriven.setVisibility(View.GONE);
 
             Vowner.setVisibility(View.GONE);
             Vloc.setVisibility(View.GONE);
@@ -414,47 +411,124 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
 
     }
 
-    /*public void SelectImages(View view) {
-     *//*ImagePicker.Companion.with(this)
-                .crop()
-                .compress(1024)
-                .start();*//*
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0000);
-
-    }*/
-
     public boolean checkInput(int pos){
         if (pos == 0){
-            if(Vno.getText().toString().equals("")){
-                Vno.setError("Required");
+            if(BidTitle.getText().toString().equals("")){
+                BidTitle.setError("Required");
                 return false;
             }
-            else
-            {
-                VehicleNo = Vno.getText().toString();
-                return true;
+            else {
+                BidTitle.setEnabled(true);
+            }
+
+
+            if(BidPrice.getText().toString().equals("")){
+                BidPrice.setError("Required");
+                return false;
+            }
+            else {
+                BidPrice.setEnabled(true);
+            }
+
+            if(BidDes.getText().toString().equals("")){
+                BidDes.setError("Required");
+                return false;
+            }
+            else {
+                BidDes.setEnabled(true);
             }
         }
 
         else if (pos == 1){
-            return true;
+            if(Vno.getText().toString().equals("")){
+                Vno.setError("Required");
+                return false;
+            }
+            else {
+                Vno.setEnabled(true);
+            }
+
+            if(Vname.getText().toString().equals("")){
+                Vname.setError("Required");
+                return false;
+            }
+            else {
+                Vname.setEnabled(true);
+            }
+
+            if(Vmodel.getText().toString().equals("")){
+                Vmodel.setError("Required");
+                return false;
+            }
+            else {
+                Vmodel.setEnabled(true);
+            }
+
         }
 
         else if (pos == 2){
 
-            return true;
+            if(Vtire.getText().toString().equals("")){
+                Vtire.setError("Required");
+                return false;
+            }
+            else {
+                Vtire.setEnabled(true);
+            }
+
+            if(Vload.getText().toString().equals("")){
+                Vload.setError("Required");
+                return false;
+            }
+            else {
+                Vload.setEnabled(true);
+            }
+
+            if(Average.getText().toString().equals("")){
+                Average.setError("Required");
+                return false;
+            }
+            else {
+                Average.setEnabled(true);
+            }
+
+            if(Vdriven.getText().toString().equals("")){
+                Vdriven.setError("Required");
+                return false;
+            }
+            else {
+                Vdriven.setEnabled(true);
+            }
+
         }
 
         else if (pos == 3){
-            return true;
+            if(Vowner.getText().toString().equals("")){
+                Vowner.setError("Required");
+                return false;
+            }
+            else {
+                Vowner.setEnabled(true);
+            }
+
+            if(Vloc.getText().toString().equals("")){
+                Vloc.setError("Required");
+                return false;
+            }
+            else {
+                Vloc.setEnabled(true);
+            }
+
+            if(Vcontact.getText().toString().equals("")){
+                Vcontact.setError("Required");
+                return false;
+            }
+            else {
+                Vcontact.setEnabled(true);
+            }
+
         }
-        else {
-            return false;
-        }
+        return true;
     }
 
     @Override
@@ -488,15 +562,17 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
         VehicleModel = Vmodel.getText().toString();
 
 
-        VehicleOwner = Vowner.getText().toString();
         VehicleAvg = Average.getText().toString();
-        VehicleAvail = Vavail.getText().toString();
+        VehicleDriven = Vdriven.getText().toString();
         VehicleTire = Vtire.getText().toString();
         VehicleLoad = Vload.getText().toString();
 
-//        VehicleDetails mVehicle = new VehicleDetails(UserId, VehicleName, VehicleNo, VehicleType, VehicleAvg, "Available", VehicleTire, VehicleAvail, VehicleLoad, VehicleOwner, "Temporary Name" );
-        BiddingVehicle mVehicle = new BiddingVehicle(BidddingTitle, BidddingDes, BidddingPrice, VehicleName, VehicleModel, VehicleNo, VehicleType, VehicleTire, VehicleLoad, VehicleAvail, VehicleAvg, VehicleOwner, OwnerCont, OwnerLoc, UserId);
-        myRef.child("bid_vehicle_details").child(VehicleNo).setValue(mVehicle);
+        VehicleOwner = Vowner.getText().toString();
+        OwnerLoc = Vloc.getText().toString();
+        OwnerCont = Vcontact.getText().toString();
+
+        //        VehicleDetails mVehicle = new VehicleDetails(UserId, VehicleName, VehicleNo, VehicleType, VehicleAvg, "Available", VehicleTire, VehicleAvail, VehicleLoad, VehicleOwner, "Temporary Name" );
+        BiddingVehicle mVehicle = new BiddingVehicle(BidddingTitle, BidddingDes, BidddingPrice, VehicleName, VehicleModel, VehicleNo, VehicleType, VehicleTire, VehicleLoad, VehicleDriven, VehicleAvg, VehicleOwner, OwnerCont, OwnerLoc, UserId);
 
         if(filePath != null)
         {
@@ -509,8 +585,14 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Vehicle Added For Bidding", Toast.LENGTH_SHORT).show();
+                            myRef.child("bid_vehicle_details").child(VehicleNo).setValue(mVehicle).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getContext(), "Vehicle Added For Bidding", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                }
+                            });
+
                             BiddingFragment biddingFragment = new BiddingFragment();
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -538,32 +620,5 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
 
     }
 
-    private void showCustomDialog() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_warning);
-        dialog.setCancelable(true);
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                ProfileFragment profileFragment = new ProfileFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.cont,profileFragment,null);
-                fragmentTransaction.commit();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
 }

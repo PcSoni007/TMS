@@ -18,6 +18,7 @@ public class UserDetails {
     private String UserDL;
     private ArrayList<Image> Imgpath;
 
+
     public UserDetails(String userType, String userEmail, String userName, String userAdd, String userCont, String userEmgCont, String userAadhar, String userPan, String userGST, String userDL, ArrayList<Image> imgpath) {
         UserType = userType;
         UserName = userName;
@@ -57,15 +58,15 @@ public class UserDetails {
     }
 
 
+    public UserDetails() {
+    }
+
     public String getUserEmail() {
         return UserEmail;
     }
 
     public void setUserEmail(String userEmail) {
         UserEmail = userEmail;
-    }
-
-    public UserDetails() {
     }
 
     public String getUserAadhar() {

@@ -157,12 +157,8 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
-            UserId = mAuth.getCurrentUser().getUid();
-        }
-        else{
-            showCustomDialog();
-        }
+
+        UserId = mAuth.getCurrentUser().getUid();
 
         Vname = view.findViewById(R.id.vName);
         Vno = view.findViewById(R.id.vNo);
@@ -457,7 +453,6 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
 
 //        VehicleDetails mVehicle = new VehicleDetails(UserId, VehicleName, VehicleNo, VehicleType, VehicleAvg, "Available", VehicleTire, VehicleAvail, VehicleLoad, VehicleOwner, "Temporary Name" );
         VehicleDetails mVehicle = new VehicleDetails(VehicleName, VehicleModel, VehicleNo, VehicleType, VehicleTire, VehicleAvg, VehicleAvail, VehicleLoad,  VehicleOwner, OwnerCont, OwnerLoc, UserId);
-        myRef.child("vehicle_details").child(VehicleNo).setValue(mVehicle);
 
         if(filePath != null)
         {
@@ -470,12 +465,20 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Vehicle Added", Toast.LENGTH_SHORT).show();
-                            ProfileFragment profileFragment = new ProfileFragment();
+
+                            myRef.child("vehicle_details").child(VehicleNo).setValue(mVehicle).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getContext(), "Vehicle Added", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+
+                                }
+                            });
+
+                            MyVehicleFragment myVehicleFragment = new MyVehicleFragment();
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.cont,profileFragment,null);
+                            fragmentTransaction.replace(R.id.cont,myVehicleFragment,null);
                             fragmentTransaction.commit();
                         }
                     })
@@ -498,34 +501,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
 
     }
 
-    private void showCustomDialog() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_warning);
-        dialog.setCancelable(true);
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                ProfileFragment profileFragment = new ProfileFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.cont,profileFragment,null);
-                fragmentTransaction.commit();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
 
 /*    private static final int MAX_STEP = 3;
     private int current_step = 0;

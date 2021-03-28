@@ -16,8 +16,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".ui.Demo"/>
-        <activity android:name=".ui.AddUserDetails"/>
+        <activity android:name=".ui.BIdVehicleDetailActivity"></activity>
+        <activity android:name=".ui.Demo" />
+        <activity android:name=".ui.AddUserDetails" />
         <activity android:name=".ui.AddVehicle" />
         <activity android:name=".ui.AddJobs" />
         <activity android:name=".ui.AddBidding" />
@@ -32,7 +33,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.HomePage" android:windowSoftInputMode="adjustPan"/>
+            android:name=".ui.HomePage"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            />
         <activity android:name=".MainActivity" />
     </application>
 

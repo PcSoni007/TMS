@@ -3,20 +3,21 @@
 
 
     <style name="signup" parent="FirebaseUI" >
-        <item name="colorPrimary">@color/grey_100</item>
-        <item name="colorPrimaryDark">@color/grey_10</item>
-        <item name="colorAccent">@color/grey_800</item>
+        <item name="colorPrimary">@color/blue_300</item>
+        <item name="colorPrimaryDark">@color/blue_300</item>
+        <item name="colorAccent">@color/blue_50</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:actionModeBackground">@color/white</item>
+        <item name="android:actionModeBackground">@color/green_400</item>
         <item name="android:dialogTheme">@style/Dialog.Theme</item>
-        <item name="android:windowBackground">@color/grey_5</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:windowBackground">@color/grey_40</item>
+        <item name="android:textColor">@android:color/black</item>
+
     </style>
 
     <!--style for ripple library-->
     <style name="RippleStyleWhite">
         <item name="mrl_rippleOverlay">true</item>
-        <item name="mrl_rippleColor">#80FFFFFF</item>
+        <item name="mrl_rippleColor">#68B4F1</item>
         <item name="mrl_rippleHover">true</item>
         <item name="mrl_rippleAlpha">0.2</item>
     </style>
