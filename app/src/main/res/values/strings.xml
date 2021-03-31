@@ -62,5 +62,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="about_me">"TMS is An Android Application developed using Java. Basically this application id deveoped using Firebase. This Application is just for Presentation purpose.  "</string>
+    <string name="about_me2">App Developer Name</string>
+    <string name="Developer_Name">Prakhar Chandra Soni</string>
 
 </resources>

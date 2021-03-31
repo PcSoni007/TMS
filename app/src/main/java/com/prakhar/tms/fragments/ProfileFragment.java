@@ -1,12 +1,18 @@
 package com.prakhar.tms.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +34,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.prakhar.tms.BuildConfig;
 import com.prakhar.tms.R;
 import com.prakhar.tms.ui.HomePage;
+import com.prakhar.tms.utils.Tools;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -50,6 +58,7 @@ public class ProfileFragment extends Fragment {
     private Button LogoutBtn;
     private Button LoginBtn;
     private Button ProfileBtn;
+    private Button About;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +74,7 @@ public class ProfileFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         if (mAuth.getCurrentUser() != null){
             view = inflater.inflate(R.layout.fragment_profile, container, false);
+
             initprof(view);
         }
         else{
@@ -82,6 +92,14 @@ public class ProfileFragment extends Fragment {
         userName = view.findViewById(R.id.userName);
         LogoutBtn = view.findViewById(R.id.logout);
         ProfileBtn = view.findViewById(R.id.makeProfile);
+        About = view.findViewById(R.id.about);
+
+        About.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogAbout();
+            }
+        });
 
         ProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,7 +171,6 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,4 +207,31 @@ public class ProfileFragment extends Fragment {
             }
         }
     }
+    private void showDialogAbout() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_about);
+        dialog.setCancelable(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        ((TextView) dialog.findViewById(R.id.tv_version)).setText("Version " + BuildConfig.VERSION_NAME);
+
+
+
+        ((ImageButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
 }

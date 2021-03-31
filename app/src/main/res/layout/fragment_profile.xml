@@ -124,6 +124,7 @@
                 android:background="@drawable/btn_rounded_indigo_outline"
                 android:text="About App"
                 android:textAllCaps="false"
+                android:id="@+id/about"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_90"
                 app:fontFamily="sans-serif-medium" />

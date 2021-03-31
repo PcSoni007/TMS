@@ -543,7 +543,7 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child("images/" + UserId + "/" + UUID.randomUUID().toString());
+            StorageReference ref = storageReference.child("images/user_images/"+UserId);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
