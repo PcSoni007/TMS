@@ -1,6 +1,7 @@
 package com.prakhar.tms.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -27,10 +28,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -77,6 +81,13 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
     ImageView imageView;
     CardView cardView;
 
+    TextView Pdetails;
+    TextView Cdetails;
+    TextView Idetails;
+    TextView Pics;
+    TextView Confirmation;
+
+    Context context;
     Button Continue1;
     Button Continue2;
     Button Continue3;
@@ -108,6 +119,7 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
         storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
         UserId = mAuth.getCurrentUser().getUid();
+        context = getContext();
 
     }
 
@@ -117,8 +129,11 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_make_prof, container, false);
-        init();
+
         initComponent();
+
+        init();
+
         return view;
     }
 
@@ -137,6 +152,12 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
         step_view_list.add(((RelativeLayout) view.findViewById(R.id.step_time)));
         step_view_list.add(((RelativeLayout) view.findViewById(R.id.step_date)));
         step_view_list.add(((RelativeLayout) view.findViewById(R.id.step_confirmation)));
+
+        Pdetails = view.findViewById(R.id.tv_label_title);
+        Cdetails = view.findViewById(R.id.tv_label_description);
+        Idetails = view.findViewById(R.id.tv_label_time);
+        Pics = view.findViewById(R.id.tv_label_date);
+        Confirmation = view.findViewById(R.id.tv_label_confirmation);
 
         for (View v : view_list) {
             v.setVisibility(View.GONE);
@@ -172,32 +193,41 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
         Continue1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAction(view);
+                if(checkInput(0)){
+                    clickAction(view);
+                }
             }
         });
 
         Continue2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAction(view);
+                if(checkInput(1)){
+                    clickAction(view);
+                }
             }
         });
         Continue3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAction(view);
+                if(checkInput(2)){
+                    clickAction(view);
+                }
             }
         });
         Continue4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAction(view);
+                if(filePath != null){
+                    clickAction(view);
+                }
             }
         });
         Continue5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAction(view);
+                UploadDetails(view);
+
             }
         });
 
@@ -208,8 +238,40 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
             }
         });
 
+        Pdetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickLabel(view);
+            }
+        });
 
+        Cdetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickLabel(view);
+            }
+        });
 
+        Idetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickLabel(view);
+            }
+        });
+
+        Pics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickLabel(view);
+            }
+        });
+
+        Confirmation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickLabel(view);
+            }
+        });
         // Spinner User Type
         ArrayAdapter<String> types = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, Utypes);
         types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -224,23 +286,12 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
         switch (id) {
             case R.id.bt_continue_title:
                 // validate input user here
-                /*if (((AppCompatEditText) view.findViewById(R.id.userName)).getText().toString().trim().equals("")) {
-                    Snackbar.make(view, "Personal Details cannot be Empty", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }*/
 
                 collapseAndContinue(0);
-//                (BottomAppBar) view.findViewById(R.id.bottomAppBar).getFitsSystemWindows();
                 break;
             case R.id.bt_continue_description:
-                // validate input user here
-                /*if (((AppCompatEditText) view.findViewById(R.id.userEmail)).getText().toString().trim().equals("")) {
-                    Snackbar.make(view, "Contact Details cannot empty", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }*/
-
                 collapseAndContinue(1);
-                if (UserType.equals("Driver")) {
+                if (UserType.equals("Driver")) {    
                     Udl.setVisibility(View.VISIBLE);
                 }
                 else {
@@ -250,28 +301,6 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
             case R.id.bt_continue_time:
                 // validate input user here
 
-                /*if (((AppCompatEditText) view.findViewById(R.id.userAadhar)).getText().toString().trim().equals("")) {
-                    Snackbar.make(view, "Contact Details cannot empty", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (((AppCompatEditText) view.findViewById(R.id.userPan)).getText().toString().trim().equals("")) {
-                    Snackbar.make(view, "Contact Details cannot empty", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }*/
-                if (UserType.equals("Driver")) {
-//                    Udl.setVisibility(View.GONE);
-                    /*if (((AppCompatEditText) view.findViewById(R.id.userDl)).getText().toString().trim().equals("")) {
-                        Snackbar.make(view, "Contact Details cannot empty", Snackbar.LENGTH_SHORT).show();
-                        return;
-                    }*/
-                }
-                else {
-//                    UGST.setVisibility(View.GONE);
-                    /*if (((AppCompatEditText) view.findViewById(R.id.userGst)).getText().toString().trim().equals("")) {
-                        Snackbar.make(parent_view, "Contact Details cannot empty", Snackbar.LENGTH_SHORT).show();
-                        return;
-                    }*/
-                }
                 collapseAndContinue(2);
                 Udl.setVisibility(View.GONE);
                 UGST.setVisibility(View.GONE);
@@ -285,10 +314,7 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
                 UimgPicker.setVisibility(View.GONE);
                 break;
             case R.id.bt_add_event:
-                // validate input user here
-//                finish();
                 UploadDetails(view);
-
                 break;
         }
     }
@@ -403,6 +429,103 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
         }
     }
 
+    public boolean checkInput(int pos){
+
+        if (pos == 0){
+            if(Uname.getText().toString().equals("")){
+                Uname.setError("Required");
+                return false;
+            }
+            else {
+                Uname.setEnabled(true);
+            }
+
+            if(UAdd.getText().toString().equals("")){
+                UAdd.setError("Required");
+                return false;
+            }
+            else {
+                UAdd.setEnabled(true);
+            }
+
+            if(Udescription.getText().toString().equals("")){
+                Udescription.setError("Required");
+                return false;
+            }
+            else {
+                Udescription.setEnabled(true);
+            }
+
+        }
+
+        else if (pos == 1){
+
+            if(Uemail.getText().toString().equals("")){
+                Uemail.setError("Required");
+                return false;
+            }
+            else {
+                Uemail.setEnabled(true);
+            }
+
+            if(Ucont.getText().toString().equals("")){
+                Ucont.setError("Required");
+                return false;
+            }
+            else {
+                Ucont.setEnabled(true);
+            }
+
+            if(UEmgCont.getText().toString().equals("")){
+                UEmgCont.setError("Required");
+                return false;
+            }
+            else {
+                UEmgCont.setEnabled(true);
+            }
+
+        }
+
+        else if (pos == 2){
+            if(UAadhar.getText().toString().equals("")){
+                UAadhar.setError("Required");
+                return false;
+            }
+            else {
+                UAadhar.setEnabled(true);
+            }
+
+            if(Upan.getText().toString().equals("")){
+                Upan.setError("Required");
+                return false;
+            }
+            else {
+                Upan.setEnabled(true);
+            }
+
+            if(UserType.equals("Driver")){
+                if(Udl.getText().toString().equals("")){
+                    Udl.setError("Required");
+                    return false;
+                }
+                else {
+                    Udl.setEnabled(true);
+                }
+            }
+            else {
+                if(UGST.getText().toString().equals("")){
+                    UGST.setError("Required");
+                    return false;
+                }
+                else {
+                    UGST.setEnabled(true);
+                }
+            }
+
+        }
+        return true;
+    }
+
     public void UploadDetails(View view) {
 
         UserName = Uname.getText().toString();
@@ -415,9 +538,6 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
         UserDl = Udl.getText().toString();
         UserGst = UGST.getText().toString();
 
-        UserDetails mUser = new UserDetails(UserType, UserEmail, UserName, UserAdd, UserCont, UserEmgCont, UserAadhar, UserPan, UserGst, UserDl);
-        myRef.child("user_details").child(UserId).setValue(mUser);
-
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(getActivity());
             progressDialog.setTitle("Uploading...");
@@ -429,7 +549,9 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(getContext(), "You Have Successfully Made Your Profile", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "You Have Successfully Made Your Profile", Toast.LENGTH_SHORT).show();
+                            UserDetails mUser = new UserDetails(UserType, UserEmail, UserName, UserAdd, UserCont, UserEmgCont, UserAadhar, UserPan, UserGst, UserDl);
+                            myRef.child("user_details").child(UserId).setValue(mUser);
                             ProfileFragment profileFragment = new ProfileFragment();
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -455,6 +577,8 @@ public class MakeProfFragment extends Fragment implements AdapterView.OnItemSele
                         }
                     });
         }
+
+
 
     }
 }

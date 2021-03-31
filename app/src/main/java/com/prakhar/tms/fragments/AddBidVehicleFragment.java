@@ -2,6 +2,7 @@ package com.prakhar.tms.fragments;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -106,7 +107,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
 
     String UserId;
 
-
+    Context context;
     private Uri filePath;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
@@ -133,6 +134,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_bid_vehicle, container, false);
+        context = getContext();
         init();
         initComponent();
 
@@ -588,7 +590,7 @@ public  class AddBidVehicleFragment extends Fragment implements AdapterView.OnIt
                             myRef.child("bid_vehicle_details").child(VehicleNo).setValue(mVehicle).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getContext(), "Vehicle Added For Bidding", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Vehicle Added For Bidding", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
                                 }
                             });

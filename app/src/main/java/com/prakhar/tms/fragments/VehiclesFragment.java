@@ -2,6 +2,7 @@ package com.prakhar.tms.fragments;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -70,6 +71,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
     private TextView status;
     private View view;
     private ArrayList<String> tabs = new ArrayList<String>();
+    Context context;
 
     EditText Vname;
     EditText Vno;
@@ -140,6 +142,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_vehicle, container, false);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        context = getContext();
         init();
         initComponent();
 
@@ -227,7 +230,9 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
         ((LinearLayout) view.findViewById(R.id.lyt_next)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextStep(current_step);
+                if (checkInput(current_step)){
+                    nextStep(current_step);
+                }
                 CurrentView(current_step);
 
             }
@@ -389,33 +394,97 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
     }*/
 
     public boolean checkInput(int pos){
+
         if (pos == 0){
             if(Vno.getText().toString().equals("")){
                 Vno.setError("Required");
                 return false;
             }
-            else
-            {
-                VehicleNo = Vno.getText().toString();
-                return true;
+            else {
+                Vno.setEnabled(true);
             }
+
+            if(Vname.getText().toString().equals("")){
+                Vname.setError("Required");
+                return false;
+            }
+            else {
+                Vname.setEnabled(true);
+            }
+
+            if(Vmodel.getText().toString().equals("")){
+                Vmodel.setError("Required");
+                return false;
+            }
+            else {
+                Vmodel.setEnabled(true);
+            }
+
         }
 
         else if (pos == 1){
-            return true;
+
+            if(Vtire.getText().toString().equals("")){
+                Vtire.setError("Required");
+                return false;
+            }
+            else {
+                Vtire.setEnabled(true);
+            }
+
+            if(Vload.getText().toString().equals("")){
+                Vload.setError("Required");
+                return false;
+            }
+            else {
+                Vload.setEnabled(true);
+            }
+
+            if(Average.getText().toString().equals("")){
+                Average.setError("Required");
+                return false;
+            }
+            else {
+                Average.setEnabled(true);
+            }
+
+            if(Average.getText().toString().equals("")){
+                Average.setError("Required");
+                return false;
+            }
+            else {
+                Average.setEnabled(true);
+            }
+
         }
 
         else if (pos == 2){
+            if(Vowner.getText().toString().equals("")){
+                Vowner.setError("Required");
+                return false;
+            }
+            else {
+                Vowner.setEnabled(true);
+            }
 
-            return true;
-        }
+            if(Vloc.getText().toString().equals("")){
+                Vloc.setError("Required");
+                return false;
+            }
+            else {
+                Vloc.setEnabled(true);
+            }
 
-        else if (pos == 3){
-            return true;
+            if(Vcontact.getText().toString().equals("")){
+                Vcontact.setError("Required");
+                return false;
+            }
+            else {
+                Vcontact.setEnabled(true);
+            }
+
         }
-        else {
-            return false;
-        }
+        return true;
     }
 
     @Override
@@ -469,7 +538,7 @@ public class VehiclesFragment extends Fragment implements AdapterView.OnItemSele
                             myRef.child("vehicle_details").child(VehicleNo).setValue(mVehicle).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getContext(), "Vehicle Added", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Vehicle Added", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
 
                                 }

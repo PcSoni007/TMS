@@ -1,6 +1,7 @@
 package com.prakhar.tms.fragments;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -104,6 +105,7 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
 
     String UserId;
 
+    Context context;
     String str_progress;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
@@ -344,7 +346,7 @@ public class AddJobFragment extends Fragment implements AdapterView.OnItemSelect
         myRef.child("job_details").child(UserId+date+JobId).setValue(jobs).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getContext(), "Job Added Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Job Added Successfully", Toast.LENGTH_SHORT).show();
                 JobsFragment jobsFragment = new JobsFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
